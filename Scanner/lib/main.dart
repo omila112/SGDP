@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Scanner/result_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -95,7 +96,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               appBar: AppBar(
                 title: const Text('Cosmo Scanner'),
               ),
-              backgroundColor: _isPermissionGranted ? Colors.lightBlue : null,
+              backgroundColor: _isPermissionGranted ? const Color.fromARGB(255, 11, 114, 161) : null,
               body: _isPermissionGranted
                   ? Column(
                       children: [
