@@ -1,4 +1,4 @@
-name: text_recognition_flutter
+name: Scanner
 description: A sample Flutter project that use text recognition.
 publish_to: 'none'
 version: 1.0.0+1
