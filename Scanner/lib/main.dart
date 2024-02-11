@@ -95,7 +95,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               appBar: AppBar(
                 title: const Text('Cosmo Scanner'),
               ),
-              backgroundColor: _isPermissionGranted ? Colors.transparent : null,
+              backgroundColor: _isPermissionGranted ? Colors.lightBlue : null,
               body: _isPermissionGranted
                   ? Column(
                       children: [

@@ -10,6 +10,7 @@ class ResultScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Result'),
         ),
+        backgroundColor: Colors.blue, // Set background color to blue
         body: Container(
           padding: const EdgeInsets.all(30.0),
           child: Text(text),
