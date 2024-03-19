@@ -10,7 +10,8 @@ class ResultScreen extends StatelessWidget {
   final String text;
   final BuildContext context;
 
-  const ResultScreen({Key? key, required this.text, required this.context}) : super(key: key);
+  const ResultScreen({Key? key, required this.text, required this.context})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -39,7 +40,7 @@ class ResultScreen extends StatelessWidget {
                   // Call the function to add data to Firestore and send to the server
                   addToFirestoreandSendToServer(text);
                 },
-                child: Text('Add to Firestore and send to server'),
+                child: Text('check Chemicals'),
               ),
             ],
           ),
@@ -103,13 +104,15 @@ class ResultScreen extends StatelessWidget {
       body: jsonEncode({'Query': text}),
     );
 
-   if (response.statusCode == 200) {
-      List<String> matchedChemicalNames = List<String>.from(jsonDecode(response.body)["MatchedChemicalNames"]);
+    if (response.statusCode == 200) {
+      List<String> matchedChemicalNames =
+          List<String>.from(jsonDecode(response.body)["MatchedChemicalNames"]);
       Navigator.push(
         // Navigate to the results display screen
         context,
         MaterialPageRoute(
-          builder: (context) => ResultsDisplayScreen(matchedChemicalNames: matchedChemicalNames),
+          builder: (context) =>
+              ResultsDisplayScreen(matchedChemicalNames: matchedChemicalNames),
         ),
       );
     } else {
