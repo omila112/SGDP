@@ -10,17 +10,27 @@ class ResultsDisplayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Matched Chemical Names'),
+        title: Text('Harmful chemicals in the product'),
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: matchedChemicalNames.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(matchedChemicalNames[index]),
-            );
-          },
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: matchedChemicalNames.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(matchedChemicalNames[index]),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text('Tap to get more info about chemicals'),
+          ),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }
