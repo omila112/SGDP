@@ -10,8 +10,7 @@ class ResultsDisplayScreen extends StatelessWidget {
       : super(key: key);
 
   Future<void> _getPredictions(BuildContext context) async {
-    final url =
-        'http://192.168.1.5:9000/api'; // Replace with your Flask server address
+    final url = 'http://192.168.1.5:9000/api';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -21,12 +20,14 @@ class ResultsDisplayScreen extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
-      // Navigate to new screen to display predictions
+      print('Server response: ${response.body}'); // Print server response
+      Map<String, dynamic> predictions = jsonDecode(response.body);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PredictionsScreen(
-            predictions: jsonDecode(response.body),
+          builder: (context) => PredictionsDisplayScreen(
+            matchedChemicalNames: matchedChemicalNames,
+            predictions: predictions,
           ),
         ),
       );
@@ -56,7 +57,7 @@ class ResultsDisplayScreen extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              _getPredictions(context); // Call function to get predictions
+              _getPredictions(context);
             },
             child: Text('Tap to get more info about chemicals'),
           ),

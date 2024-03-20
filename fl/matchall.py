@@ -126,19 +126,23 @@ def receive_data():
 
 @app.route('/predict', methods=['POST'])  
 def predict_additional_information():
-    data = request.json  
-    if data and 'MatchedChemicalNames' in data and data['MatchedChemicalNames']:
-        matched_chemicals = data['MatchedChemicalNames']
-        print("Predicting additional information for matched chemicals:", matched_chemicals)
-        additional_info = {}
-        for chemical_name in matched_chemicals:
-            predictions = predict(chemical_name)
-            additional_info[chemical_name] = predictions
-        print("Additional information predictions:", additional_info)
-        return jsonify(additional_info), 200
-    else:
-        return jsonify({"message": "Invalid data format or no matched chemicals provided."}), 400
-
+  data = request.json  
+  if data and 'MatchedChemicalNames' in data and data['MatchedChemicalNames']:
+    matched_chemicals = data['MatchedChemicalNames']
+    print("Predicting additional information for matched chemicals:", matched_chemicals)
+    additional_info = {}
+    for chemical_name in matched_chemicals:
+      predictions = predict(chemical_name)
+      # Update the dictionary with formatted data for each chemical
+      additional_info[chemical_name] = {
+          'Health Hazards': predictions['Health Hazards'],
+          'Additional Information': predictions['Additional Information'],
+          'Compounds': predictions['Compounds']
+      }
+    print("Additional information predictions:", additional_info)
+    return jsonify(additional_info), 200
+  else:
+    return jsonify({"message": "Invalid data format or no matched chemicals provided."}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=9000)

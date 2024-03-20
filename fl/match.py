@@ -44,15 +44,6 @@ def match_chemical_name(input_chemical_name):
         else:
             return None, None  # No match found
 
-# Method to predict health hazards, additional information, and compounds
-def predict(input_chemical_name):
-    # Your prediction code here
-    return {
-        'Health Hazards': 'Placeholder prediction for ' + input_chemical_name,
-        'Additional Information': 'Placeholder prediction for ' + input_chemical_name,
-        'Compounds': 'Placeholder prediction for ' + input_chemical_name
-    }
-
 @app.route('/api', methods=['POST'])  
 def receive_data():
     if request.method == 'POST':
@@ -68,28 +59,24 @@ def receive_data():
             processed_queries.add(decoded_query)
             
             print('Received query:', decoded_query)
-            matched_results_info = {}  # Dictionary to store matched chemicals and their predictions
-            matched_chemicals_list = []  # List to store matched chemical names
+            matched_results = set()  # Use a set to store unique chemical names
             for input_chemical_name in re.split(r'[\n,]', decoded_query):
                 input_chemical_name = input_chemical_name.strip()
                 if input_chemical_name:
                     matched_chemicals, returned_input_chemical_name = match_chemical_name(input_chemical_name)
                     if matched_chemicals:
-                        matched_chemicals_list.extend(matched_chemicals)
-                        print("Matches found for chemical name:", input_chemical_name)
-                        for matched_chemical in matched_chemicals:
-                            print("Matched chemical name:", matched_chemical)
-                            # Get predictions for the matched chemical
-                            predictions = predict(matched_chemical)
-                            matched_results_info[matched_chemical] = predictions
-            
-            # Sending matched chemicals and predictions to Flutter
-            if matched_chemicals_list:
-                matched_results_info['MatchedChemicalNames'] = matched_chemicals_list
-                print("Matched chemical names:", matched_chemicals_list)
-                return jsonify(matched_results_info), 200
-            
-            # No matches found for the provided chemical names
+                        # Check if the chemical name matches the returned input chemical name
+                        if input_chemical_name.lower() == returned_input_chemical_name.lower():
+                            matched_results.update(matched_chemicals)  # Add matched chemical names to the set
+                            print("Matches found for chemical name", input_chemical_name + ":", len(matched_chemicals))
+                            for matched_chemical in matched_chemicals:
+                                print("Chemical name:", matched_chemical)
+                        else:
+                            print("Skipping duplicate chemical name:", input_chemical_name)
+            matched_results_list = list(matched_results)
+            if matched_results_list:
+                print("Matched chemical names:", matched_results_list)
+                return jsonify({"MatchedChemicalNames": matched_results_list}), 200
             else:
                 return jsonify({"message": "No matches found for the provided chemical names."}), 404
         else:

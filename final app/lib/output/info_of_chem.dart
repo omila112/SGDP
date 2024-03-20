@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
 
-class PredictionsScreen extends StatelessWidget {
+class PredictionsDisplayScreen extends StatelessWidget {
+  final List<String> matchedChemicalNames;
   final Map<String, dynamic> predictions;
 
-  const PredictionsScreen({Key? key, required this.predictions})
-      : super(key: key);
+  const PredictionsDisplayScreen({
+    Key? key,
+    required this.matchedChemicalNames,
+    required this.predictions,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Predicted Information'),
+        title: Text('Predictions'),
       ),
-      body: ListView(
-        children: predictions.entries.map((entry) {
+      body: ListView.builder(
+        itemCount: matchedChemicalNames.length,
+        itemBuilder: (context, index) {
+          String chemicalName = matchedChemicalNames[index];
+          Map<String, dynamic> predictionData = predictions[chemicalName];
+
           return ListTile(
-            title: Text(entry.key),
+            title: Text(chemicalName),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Health Hazards: ${entry.value['Health Hazards']}'),
-                Text(
-                    'Additional Information: ${entry.value['Additional Information']}'),
-                Text('Compounds: ${entry.value['Compounds']}'),
+                Text('Health Hazards: ${predictionData['Health Hazards']}'),
+                Text('Additional Information: ${predictionData['Additional Information']}'),
+                Text('Compounds: ${predictionData['Compounds']}'),
               ],
             ),
           );
-        }).toList(),
+        },
       ),
     );
   }
