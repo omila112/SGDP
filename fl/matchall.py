@@ -4,6 +4,9 @@ from fuzzywuzzy import fuzz
 import pandas as pd
 import re
 import warnings
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.svm import SVC
 
 app = Flask(__name__)
 
@@ -46,11 +49,38 @@ def match_chemical_name(input_chemical_name):
 
 # Method to predict health hazards, additional information, and compounds
 def predict(input_chemical_name):
+    print("Predict function called with input:", input_chemical_name)
     # Your prediction code here
+    # Load the dataset
+    cos_data = pd.read_csv('chem.csv')
+
+    # Separate features (X) and target variables (Y)
+    X = cos_data['Chemical']
+    Y = cos_data[['Health Hazards', 'Additional Information', 'Compounds']]
+
+    # Vectorize the chemical names using bag-of-words representation
+    vectorizer = CountVectorizer()
+    X_vectorized = vectorizer.fit_transform(X)
+
+    # Train multi-output classifier with SVM classifiers
+    classifier = MultiOutputClassifier(SVC())
+    classifier.fit(X_vectorized, Y)
+
+    # Vectorize the input chemical name
+    chemical_vectorized = vectorizer.transform([input_chemical_name])
+
+    # Predictions for the input chemical name
+    predictions = classifier.predict(chemical_vectorized)[0]
+    
+    print("Predictions for", input_chemical_name)
+    print("Health Hazards:", predictions[0])
+    print("Additional Information:", predictions[1])
+    print("Compounds:", predictions[2])
+
     return {
-        'Health Hazards': 'Placeholder prediction for ' + input_chemical_name,
-        'Additional Information': 'Placeholder prediction for ' + input_chemical_name,
-        'Compounds': 'Placeholder prediction for ' + input_chemical_name
+        'Health Hazards': predictions[0],
+        'Additional Information': predictions[1],
+        'Compounds': predictions[2]
     }
 
 @app.route('/api', methods=['POST'])  
@@ -79,11 +109,8 @@ def receive_data():
                         print("Matches found for chemical name:", input_chemical_name)
                         for matched_chemical in matched_chemicals:
                             print("Matched chemical name:", matched_chemical)
-                            # Get predictions for the matched chemical
-                            predictions = predict(matched_chemical)
-                            matched_results_info[matched_chemical] = predictions
             
-            # Sending matched chemicals and predictions to Flutter
+            # Sending matched chemicals to Flutter
             if matched_chemicals_list:
                 matched_results_info['MatchedChemicalNames'] = matched_chemicals_list
                 print("Matched chemical names:", matched_chemicals_list)
@@ -96,6 +123,22 @@ def receive_data():
             return jsonify({"message": "Invalid data format."}), 400
     else:
         return jsonify({"message": "Only POST requests are allowed."}), 405
+
+@app.route('/predict', methods=['POST'])  
+def predict_additional_information():
+    data = request.json  
+    if data and 'MatchedChemicalNames' in data and data['MatchedChemicalNames']:
+        matched_chemicals = data['MatchedChemicalNames']
+        print("Predicting additional information for matched chemicals:", matched_chemicals)
+        additional_info = {}
+        for chemical_name in matched_chemicals:
+            predictions = predict(chemical_name)
+            additional_info[chemical_name] = predictions
+        print("Additional information predictions:", additional_info)
+        return jsonify(additional_info), 200
+    else:
+        return jsonify({"message": "Invalid data format or no matched chemicals provided."}), 400
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=9000)
