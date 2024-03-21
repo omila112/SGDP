@@ -126,7 +126,7 @@ def predict_additional_information():
         additional_info = {}
         for chemical_name in matched_chemicals:
             predictions = predict(chemical_name)
-            # Update the dictionary with formatted data for each chemical
+            # Update the dictionary 
             additional_info[chemical_name] = {
                 'Health Hazards': predictions['Health Hazards'],
                 'Additional Information': predictions['Additional Information'],
