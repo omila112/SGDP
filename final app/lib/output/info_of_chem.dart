@@ -28,7 +28,8 @@ class PredictionsDisplayScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Health Hazards: ${predictionData['Health Hazards']}'),
-                Text('Additional Information: ${predictionData['Additional Information']}'),
+                Text(
+                    'Additional Information: ${predictionData['Additional Information']}'),
                 Text('Compounds: ${predictionData['Compounds']}'),
               ],
             ),

@@ -16,6 +16,21 @@ warnings.filterwarnings("ignore", category=pd.errors.DtypeWarning)
 # Read data from CSV file with explicit data type specification
 chemical_data = pd.read_csv("chemicals_in_cosmetics.csv", dtype={'ChemicalName': str})
 
+# Load the dataset for predictions
+cos_data = pd.read_csv('chem.csv')
+
+# Separate features (X) and target variables (Y)
+X = cos_data['Chemical']
+Y = cos_data[['Health Hazards', 'Additional Information', 'Compounds']]
+
+# Vectorize the chemical names using bag-of-words representation
+vectorizer = CountVectorizer()
+X_vectorized = vectorizer.fit_transform(X)
+
+# Train multi-output classifier with SVM classifiers
+classifier = MultiOutputClassifier(SVC())
+classifier.fit(X_vectorized, Y)
+
 # Set to store processed queries
 processed_queries = set()
 
@@ -49,34 +64,12 @@ def match_chemical_name(input_chemical_name):
 
 # Method to predict health hazards, additional information, and compounds
 def predict(input_chemical_name):
-    print("Predict function called with input:", input_chemical_name)
-    # Your prediction code here
-    # Load the dataset
-    cos_data = pd.read_csv('chem.csv')
-
-    # Separate features (X) and target variables (Y)
-    X = cos_data['Chemical']
-    Y = cos_data[['Health Hazards', 'Additional Information', 'Compounds']]
-
-    # Vectorize the chemical names using bag-of-words representation
-    vectorizer = CountVectorizer()
-    X_vectorized = vectorizer.fit_transform(X)
-
-    # Train multi-output classifier with SVM classifiers
-    classifier = MultiOutputClassifier(SVC())
-    classifier.fit(X_vectorized, Y)
-
     # Vectorize the input chemical name
     chemical_vectorized = vectorizer.transform([input_chemical_name])
 
     # Predictions for the input chemical name
     predictions = classifier.predict(chemical_vectorized)[0]
     
-    print("Predictions for", input_chemical_name)
-    print("Health Hazards:", predictions[0])
-    print("Additional Information:", predictions[1])
-    print("Compounds:", predictions[2])
-
     return {
         'Health Hazards': predictions[0],
         'Additional Information': predictions[1],
@@ -126,23 +119,23 @@ def receive_data():
 
 @app.route('/predict', methods=['POST'])  
 def predict_additional_information():
-  data = request.json  
-  if data and 'MatchedChemicalNames' in data and data['MatchedChemicalNames']:
-    matched_chemicals = data['MatchedChemicalNames']
-    print("Predicting additional information for matched chemicals:", matched_chemicals)
-    additional_info = {}
-    for chemical_name in matched_chemicals:
-      predictions = predict(chemical_name)
-      # Update the dictionary with formatted data for each chemical
-      additional_info[chemical_name] = {
-          'Health Hazards': predictions['Health Hazards'],
-          'Additional Information': predictions['Additional Information'],
-          'Compounds': predictions['Compounds']
-      }
-    print("Additional information predictions:", additional_info)
-    return jsonify(additional_info), 200
-  else:
-    return jsonify({"message": "Invalid data format or no matched chemicals provided."}), 400
+    data = request.json  
+    if data and 'MatchedChemicalNames' in data and data['MatchedChemicalNames']:
+        matched_chemicals = data['MatchedChemicalNames']
+        print("Predicting additional information for matched chemicals:", matched_chemicals)
+        additional_info = {}
+        for chemical_name in matched_chemicals:
+            predictions = predict(chemical_name)
+            # Update the dictionary with formatted data for each chemical
+            additional_info[chemical_name] = {
+                'Health Hazards': predictions['Health Hazards'],
+                'Additional Information': predictions['Additional Information'],
+                'Compounds': predictions['Compounds']
+            }
+        print("Additional information predictions:", additional_info)
+        return jsonify(additional_info), 200
+    else:
+        return jsonify({"message": "Invalid data format or no matched chemicals provided."}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=9000)
