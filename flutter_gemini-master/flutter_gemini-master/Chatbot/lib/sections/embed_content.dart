@@ -27,7 +27,7 @@ class _SectionEmbedContentState extends State<SectionEmbedContent> {
       children: [
         if (searchedText != null)
           MaterialButton(
-              color: Colors.blue.shade700,
+              color: Color.fromARGB(255, 225, 9, 9),
               onPressed: () {
                 setState(() {
                   searchedText = null;

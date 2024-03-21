@@ -38,7 +38,7 @@ class _SectionTextInputStreamState extends State<ResponseWidgetSection> {
       children: [
         if (searchedText != null)
           MaterialButton(
-              color: Colors.blue.shade700,
+              color: Color.fromARGB(255, 237, 8, 8),
               onPressed: () {
                 setState(() {
                   searchedText = null;

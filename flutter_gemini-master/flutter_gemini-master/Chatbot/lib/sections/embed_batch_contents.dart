@@ -28,7 +28,7 @@ class _SectionTextInputStreamState extends State<SectionBatchEmbedContents> {
       children: [
         if (searchedText != null)
           MaterialButton(
-              color: Colors.blue.shade700,
+              color: Color.fromARGB(255, 228, 7, 7),
               onPressed: () {
                 setState(() {
                   searchedText = null;

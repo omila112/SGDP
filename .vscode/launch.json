@@ -1,0 +1,68 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Bot",
+            "cwd": "Bot",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Bot (profile mode)",
+            "cwd": "Bot",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Bot (release mode)",
+            "cwd": "Bot",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "final app",
+            "cwd": "final app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "final app (profile mode)",
+            "cwd": "final app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "final app (release mode)",
+            "cwd": "final app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Text-Recognition-Flutter-master",
+            "cwd": "Text-Recognition-Flutter-master\\Text-Recognition-Flutter-master",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Text-Recognition-Flutter-master (profile mode)",
+            "cwd": "Text-Recognition-Flutter-master\\Text-Recognition-Flutter-master",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Text-Recognition-Flutter-master (release mode)",
+            "cwd": "Text-Recognition-Flutter-master\\Text-Recognition-Flutter-master",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
