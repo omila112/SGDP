@@ -22,18 +22,35 @@ class PredictionsDisplayScreen extends StatelessWidget {
           String chemicalName = matchedChemicalNames[index];
           Map<String, dynamic> predictionData = predictions[chemicalName];
 
-          return ListTile(
-            title: Text(chemicalName),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Health Hazards: ${predictionData['Health Hazards']}'),
-                Text(
-                    'Additional Information: ${predictionData['Additional Information']}'),
-                Text('Compounds: ${predictionData['Compounds']}'),
-              ],
-            ),
-          );
+          return ExpansionTile(
+  title: Container(
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.grey), // Border around the chemical name
+    ),
+    child: Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        chemicalName,
+        style: TextStyle(fontSize: 16.0), // Adjust font size if needed
+      ),
+    ),
+  ),
+  children: [
+    // Content revealed when the tile is expanded
+    Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Health Hazards: ${predictionData['Health Hazards']}'),
+          Text('Additional Information: ${predictionData['Additional Information']}'),
+          Text('Compounds: ${predictionData['Compounds']}'),
+        ],
+      ),
+    ),
+  ],
+);
+
         },
       ),
     );
