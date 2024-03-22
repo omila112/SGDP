@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify
 from urllib.parse import unquote
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz, process
 import pandas as pd
 import re
 import warnings
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.svm import SVC
+import string
 
 app = Flask(__name__)
 
@@ -37,30 +38,39 @@ processed_queries = set()
 # Set to store processed chemical names
 processed_chemical_names = set()
 
+# Function to tokenize chemical names
+def tokenize_chemical_name(chemical_name):
+    # Remove punctuation and special characters
+    chemical_name = chemical_name.translate(str.maketrans('', '', string.punctuation))
+    # Tokenize based on space and common chemical delimiters
+    tokens = re.split(r'[\s\-/]', chemical_name)
+    # Remove empty tokens
+    tokens = [token.strip() for token in tokens if token.strip()]
+    return tokens
+
 # Function to match input chemical name with database
 def match_chemical_name(input_chemical_name):
-    # Check if the chemical name has already been processed
-    if input_chemical_name in processed_chemical_names:
-        return None, None
-    else:
-        processed_chemical_names.add(input_chemical_name)
+    # Normalize and tokenize input
+    input_tokens = tokenize_chemical_name(input_chemical_name.lower())
 
+    matched_chemical_names = set()
     # Exact string matching
-    exact_matches = chemical_data[chemical_data['ChemicalName'].fillna('').str.lower() == input_chemical_name.lower()]
-    
-    if not exact_matches.empty:
-        matched_chemical_names = exact_matches['ChemicalName'].tolist()
-        return matched_chemical_names, input_chemical_name
-    else:
-        # Fuzzy string matching
-        fuzzy_matches = [(cn, fuzz.partial_ratio(input_chemical_name.lower(), str(cn).lower())) for cn in chemical_data['ChemicalName']]
-        fuzzy_matches = [(cn, score) for cn, score in fuzzy_matches if score > 80]  # Filter based on score threshold
-        
-        if fuzzy_matches:
-            matched_chemical_names = [cn for cn, _ in fuzzy_matches]
-            return matched_chemical_names, input_chemical_name
-        else:
-            return None, None  # No match found
+    exact_matches = chemical_data[chemical_data['ChemicalName'].str.lower() == input_chemical_name]
+    matched_chemical_names.update(exact_matches['ChemicalName'].tolist())
+
+    # Fuzzy string matching with tokenized names
+    for name in chemical_data['ChemicalName']:
+        if pd.notna(name):  # Skip NaN values
+            name_tokens = tokenize_chemical_name(name.lower())
+            if all(token in name_tokens for token in input_tokens):
+                matched_chemical_names.add(name)
+
+    # If no exact matches found, use fuzzy matching
+    if not matched_chemical_names:
+        fuzzy_matches = process.extract(input_chemical_name, chemical_data['ChemicalName'], limit=5)
+        matched_chemical_names.update([match[0] for match in fuzzy_matches if match[1] == 100])
+
+    return list(matched_chemical_names), input_chemical_name
 
 # Method to predict health hazards, additional information, and compounds
 def predict(input_chemical_name):
@@ -85,10 +95,9 @@ def receive_data():
             decoded_query = unquote(query)
             
             # Check if query has already been processed
-            if decoded_query in processed_queries:
-                return jsonify({"message": "Query already processed."}), 200
-            
-            processed_queries.add(decoded_query)
+            #if decoded_query in processed_queries:
+            #return jsonify({"message": "Query already processed."}), 200
+            #processed_queries.add(decoded_query)
             
             print('Received query:', decoded_query)
             matched_results_info = {}  # Dictionary to store matched chemicals and their predictions
@@ -126,7 +135,7 @@ def predict_additional_information():
         additional_info = {}
         for chemical_name in matched_chemicals:
             predictions = predict(chemical_name)
-            # Update the dictionary 
+            # Update the dictionary with formatted data for each chemical
             additional_info[chemical_name] = {
                 'Health Hazards': predictions['Health Hazards'],
                 'Additional Information': predictions['Additional Information'],

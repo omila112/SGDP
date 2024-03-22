@@ -74,7 +74,7 @@ class ResultScreen extends StatelessWidget {
   }
 
   String generateRandomDocumentId() {
-    // Generate a random alphanumeric string for the document ID
+    // Generate a random num for the id
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const length = 4; // Adjust the length as per your requirement
     Random random = Random();
@@ -95,7 +95,7 @@ class ResultScreen extends StatelessWidget {
     String encodedText = jsonEncode({'Query': text});
     print('Encoded text: $encodedText');
 
-    final url = 'http://192.168.1.5:9000/api'; // Remove query parameter
+    final url = 'http://192.168.39.140:9000/api'; // Remove query parameter
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -115,8 +115,28 @@ class ResultScreen extends StatelessWidget {
               ResultsDisplayScreen(matchedChemicalNames: matchedChemicalNames),
         ),
       );
+    } else if (response.statusCode == 404) {
+      //text to no matches found
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No Matches Found"),
+            content:
+                Text("No matches were found for the provided chemical names."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
     } else {
-      print('Failed to send HTTP request');
+      print('Faild to send HTTP request');
     }
   }
 }

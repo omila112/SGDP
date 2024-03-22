@@ -45,6 +45,7 @@ dependencies:
   google_mlkit_text_recognition: ^0.4.0
   permission_handler: ^10.2.0
   get: ^4.6.6
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

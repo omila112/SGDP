@@ -10,7 +10,7 @@ class ResultsDisplayScreen extends StatelessWidget {
       : super(key: key);
 
   Future<void> _getPredictions(BuildContext context) async {
-    final url = 'http://192.168.1.5:9000/predict'; // Updated endpoint
+    final url = 'http://192.168.39.140:9000/predict'; // Updated endpoint
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
