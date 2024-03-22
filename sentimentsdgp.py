@@ -1,7 +1,7 @@
 import pandas as pd
 from textblob import TextBlob
 
-data = pd.read_csv(r'C:\Users\omila\Downloads\chem.csv')
+data = pd.read_csv(r'\Users\resheinbastians\Documents\GitHub\SDGP\SDGP\chem.csv')
 
 def get_sentiment(text):
     analysis = TextBlob(text)
