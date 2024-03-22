@@ -13,10 +13,12 @@ class PredictionsDisplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: Colors.grey[300],
     appBar: AppBar(
+      backgroundColor: Color.fromARGB(255, 138, 60, 55),
       title: Text('Predictions'),
     ),
-    backgroundColor: Color.fromARGB(255, 138, 60, 55), // Background color
+     // Background color for the whole scaffold
     body: ListView.builder(
       itemCount: matchedChemicalNames.length,
       itemBuilder: (context, index) {
@@ -28,6 +30,7 @@ class PredictionsDisplayScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(vertical: 8.0), // Add vertical spacing between chemicals
               decoration: BoxDecoration(
+                color: Colors.white, // Set background color to white for the chemical section
                 borderRadius: BorderRadius.circular(8.0), // Rounded border edges
                 border: Border.all(color: Colors.grey), // Border around the whole section
               ),
@@ -61,5 +64,6 @@ class PredictionsDisplayScreen extends StatelessWidget {
     ),
   );
 }
+
 
 }
