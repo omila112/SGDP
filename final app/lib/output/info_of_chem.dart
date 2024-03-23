@@ -11,17 +11,18 @@ class PredictionsDisplayScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: Colors.grey[300],
     appBar: AppBar(
       backgroundColor: Color.fromARGB(255, 138, 60, 55),
       title: Text(
-    'Predictions',
-    style: TextStyle(
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),),
+        'Predictions',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
     ),
     body: ListView.builder(
       itemCount: matchedChemicalNames.length,
@@ -35,7 +36,6 @@ class PredictionsDisplayScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.0), // Rounded border edges
-              border: Border.all(color: Colors.white), // Border around the whole section
             ),
             child: ExpansionTile(
               title: Padding(
@@ -47,51 +47,50 @@ class PredictionsDisplayScreen extends StatelessWidget {
               ),
               children: [
                 // Additional information revealed when the tile is expanded
-               Padding(
-  padding: EdgeInsets.symmetric(horizontal: 16.0),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      RichText(
-        text: TextSpan(
-          style: DefaultTextStyle.of(context).style,
-          children: [
-            TextSpan(
-              text: 'Health Hazards: ',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            TextSpan(text: '${predictionData['Health Hazards']}'),
-          ],
-        ),
-      ),
-      RichText(
-        text: TextSpan(
-          style: DefaultTextStyle.of(context).style,
-          children: [
-            TextSpan(
-              text: 'Additional Information: ',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            TextSpan(text: '${predictionData['Additional Information']}'),
-          ],
-        ),
-      ),
-      RichText(
-        text: TextSpan(
-          style: DefaultTextStyle.of(context).style,
-          children: [
-            TextSpan(
-              text: 'Compounds: ',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            TextSpan(text: '${predictionData['Compounds']}'),
-          ],
-        ),
-      ),
-    ],
-  ),
-),
-
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            TextSpan(
+                              text: 'Health Hazards: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: '${predictionData['Health Hazards']}'),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            TextSpan(
+                              text: 'Additional Information: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: '${predictionData['Additional Information']}'),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            TextSpan(
+                              text: 'Compounds: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(text: '${predictionData['Compounds']}'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
