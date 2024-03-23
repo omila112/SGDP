@@ -32,11 +32,8 @@ X_vectorized = vectorizer.fit_transform(X)
 classifier = MultiOutputClassifier(SVC())
 classifier.fit(X_vectorized, Y)
 
-# Set to store processed queries
-processed_queries = set()
-
-# Set to store processed chemical names
-processed_chemical_names = set()
+# Cache to store results of previous queries
+query_cache = {}
 
 # Function to tokenize chemical names
 def tokenize_chemical_name(chemical_name):
@@ -50,6 +47,10 @@ def tokenize_chemical_name(chemical_name):
 
 # Function to match input chemical name with database
 def match_chemical_name(input_chemical_name):
+    # Check if the result is cached
+    if input_chemical_name in query_cache:
+        return query_cache[input_chemical_name]
+
     # Normalize and tokenize input
     input_tokens = tokenize_chemical_name(input_chemical_name.lower())
 
@@ -68,8 +69,10 @@ def match_chemical_name(input_chemical_name):
     # If no exact matches found, use fuzzy matching
     if not matched_chemical_names:
         fuzzy_matches = process.extract(input_chemical_name, chemical_data['ChemicalName'], limit=5)
-        matched_chemical_names.update([match[0] for match in fuzzy_matches if match[1] == 100])
+        matched_chemical_names.update([match[0] for match in fuzzy_matches if match[1] >=95])
 
+    # Cache the result
+    query_cache[input_chemical_name] = (list(matched_chemical_names), input_chemical_name)
     return list(matched_chemical_names), input_chemical_name
 
 # Method to predict health hazards, additional information, and compounds
@@ -94,18 +97,17 @@ def receive_data():
             query = data['Query']
             decoded_query = unquote(query)
             
-            # Check if query has already been processed
-            #if decoded_query in processed_queries:
-            #return jsonify({"message": "Query already processed."}), 200
-            #processed_queries.add(decoded_query)
-            
             print('Received query:', decoded_query)
             matched_results_info = {}  # Dictionary to store matched chemicals and their predictions
             matched_chemicals_list = []  # List to store matched chemical names
             for input_chemical_name in re.split(r'[\n,]', decoded_query):
                 input_chemical_name = input_chemical_name.strip()
                 if input_chemical_name:
-                    matched_chemicals, returned_input_chemical_name = match_chemical_name(input_chemical_name)
+                    # Check if the result is cached
+                    if input_chemical_name in query_cache:
+                        matched_chemicals, returned_input_chemical_name = query_cache[input_chemical_name]
+                    else:
+                        matched_chemicals, returned_input_chemical_name = match_chemical_name(input_chemical_name)
                     if matched_chemicals:
                         matched_chemicals_list.extend(matched_chemicals)
                         print("Matches found for chemical name:", input_chemical_name)
