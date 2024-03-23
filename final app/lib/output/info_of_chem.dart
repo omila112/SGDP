@@ -38,6 +38,7 @@ class PredictionsDisplayScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.0), // Rounded border edges
             ),
             child: ExpansionTile(
+              backgroundColor: Colors.transparent, // Set background color to transparent when expanded
               title: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
