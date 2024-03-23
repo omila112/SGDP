@@ -95,7 +95,7 @@ class ResultScreen extends StatelessWidget {
     String encodedText = jsonEncode({'Query': text});
     print('Encoded text: $encodedText');
 
-    final url = 'http://192.168.39.140:9000/api'; // Remove query parameter
+    final url = 'http://192.168.1.5:9000/api'; // Remove query parameter
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
