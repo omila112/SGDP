@@ -92,11 +92,11 @@ class ResultScreen extends StatelessWidget {
   void sendHttpRequest(String text) async {
     print('Text to be sent to server: $text');
 
-    // Encode the text properly based on how it's expected by the server
+    // Encode the text 
     String encodedText = jsonEncode({'Query': text});
     print('Encoded text: $encodedText');
 
-    final url = 'http://192.168.1.5:9000/api'; // Remove query parameter
+    final url = 'http://192.168.1.5:9000/api'; 
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

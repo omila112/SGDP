@@ -49,10 +49,16 @@ dependencies:
   flutter_gemini: ^2.0.3
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
   mockito: ^5.4.4
-  rxdart: 
+  rxdart:
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
