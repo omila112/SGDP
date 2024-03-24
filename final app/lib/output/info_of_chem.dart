@@ -11,7 +11,7 @@ class PredictionsDisplayScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
- Widget build(BuildContext context) {
+Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: Colors.grey[300],
     appBar: AppBar(
@@ -31,23 +31,22 @@ class PredictionsDisplayScreen extends StatelessWidget {
         Map<String, dynamic> predictionData = predictions[chemicalName];
 
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Add padding around the chemical section
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12.0), // Rounded border edges
+              borderRadius: BorderRadius.circular(12.0),
+              // Remove the border property to remove the border around the container
             ),
             child: ExpansionTile(
-              // backgroundColor: Colors.transparent, // Set background color to transparent when expanded
               title: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   chemicalName,
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold), // Bold font for chemical name
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
               ),
               children: [
-                // Additional information revealed when the tile is expanded
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
