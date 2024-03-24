@@ -1,5 +1,6 @@
 import 'package:app/pages/first_page.dart';
 import 'package:app/scanner/scannerapp.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:app/home.dart';
 import 'package:app/menupage.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           'ex1': (context) => const Spage(),
           'first_page': (context) => const FirstPage(),
           '/scannerapp': (context) => const App(),
+          '/main':(context) => const ChatApp(),
         });
   }
 }

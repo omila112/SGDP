@@ -58,7 +58,7 @@ class _HomePageState extends State<FirstPage> {
               // Title
               GestureDetector(
                 child: Text(
-                  "LETS'S SCAN CHEMICALS IN COSMETICS",
+                  "LET'S SCAN CHEMICALS IN COSMETICS",
                   style: GoogleFonts.dmMono(
                     fontSize: 15,
                     color: Colors.white,
@@ -73,3 +73,4 @@ class _HomePageState extends State<FirstPage> {
     );
   }
 }
+

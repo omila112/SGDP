@@ -4,6 +4,8 @@ import 'package:app/models/chemicals.dart';
 import 'package:app/scanner/scannerapp.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:app/main.dart';
+
 
 class Menupage extends StatefulWidget {
   const Menupage({Key? key}) : super(key: key);
@@ -126,7 +128,7 @@ class MenupageState extends State<Menupage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 25.0),
               child: Text(
-                "Chemiclas",
+                "Chemicals",
                 style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -198,6 +200,16 @@ class MenupageState extends State<Menupage> {
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        ); 
+        },
+        child: Icon(Icons.add), // Change the icon as needed
+        backgroundColor: Color.fromARGB(255, 138, 60, 55), // Change the color as needed
       ),
     );
   }
