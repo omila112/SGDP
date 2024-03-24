@@ -7,7 +7,7 @@ import 'package:app/pages/ex.dart';
 import 'package:app/pages/ex1.dart';
 import 'package:app/pages/login.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; 
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
