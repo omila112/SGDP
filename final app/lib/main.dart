@@ -1,5 +1,4 @@
 import 'package:app/pages/first_page.dart';
-import 'package:app/pages/chat.dart';
 import 'package:app/scanner/scannerapp.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +8,6 @@ import 'package:app/pages/ex.dart';
 import 'package:app/pages/ex1.dart';
 import 'package:app/pages/login.dart';
 import 'package:flutter/material.dart';
-
 
 
 void main() {
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
           'ex1': (context) => const Spage(),
           'first_page': (context) => const FirstPage(),
           '/scannerapp': (context) => const App(),
-          '/chat':(context) => const ChatApp(),
+          '/main':(context) => const ChatApp(),
         });
   }
 }
