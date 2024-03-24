@@ -49,6 +49,7 @@ class ResultScreen extends StatelessWidget {
 
   // Method to add data to Firestore and send to the server
   void addToFirestoreandSendToServer(String text) async {
+    // ignore: unused_local_variable
     String documentId = await addFieldToRandomDocument(text);
     sendHttpRequest(text);
   }

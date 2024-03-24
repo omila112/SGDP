@@ -1,7 +1,4 @@
-import 'package:app/models/chemicals.dart';
-import 'package:app/output/result_from_scanner.dart';
 import 'package:app/pages/first_page.dart';
-
 import 'package:app/scanner/scannerapp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:app/home.dart';
@@ -10,6 +7,7 @@ import 'package:app/pages/ex.dart';
 import 'package:app/pages/ex1.dart';
 import 'package:app/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
