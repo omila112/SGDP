@@ -96,8 +96,8 @@ class ResultScreen extends StatelessWidget {
     String encodedText = jsonEncode({'Query': text});
     print('Encoded text: $encodedText');
 
-    //final url = 'http://192.168.1.5:9000/api';
-    final url = 'https://546d-112-134-246-216.ngrok-free.app/api';
+    final url = 'http://192.168.1.5:9000/api';
+    //final url = 'https://546d-112-134-246-216.ngrok-free.app/api';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

@@ -10,8 +10,8 @@ class ResultsDisplayScreen extends StatelessWidget {
       : super(key: key);
 
   Future<void> _getPredictions(BuildContext context) async {
-    //final url = 'http://192.168.1.5:9000/predict';
-    final url = 'https://546d-112-134-246-216.ngrok-free.app/predict';
+    final url = 'http://192.168.1.5:9000/predict';
+    //final url = 'https://546d-112-134-246-216.ngrok-free.app/predict';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

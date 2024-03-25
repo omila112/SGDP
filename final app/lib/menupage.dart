@@ -1,5 +1,6 @@
 import 'package:app/button.dart';
 import 'package:app/components/chem_tile.dart';
+import 'package:app/maps/map_page.dart';
 import 'package:app/models/chemicals.dart';
 import 'package:app/scanner/scannerapp.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +187,13 @@ class MenupageState extends State<Menupage> {
                             width: 10,
                           ),
                           MyButton(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MapPage()),
+                              );
+                            },
                             text: 'Go',
                           ),
                         ],
@@ -198,17 +205,6 @@ class MenupageState extends State<Menupage> {
             )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const MyApp()),
-          );
-        },
-        child: Icon(Icons.add), // Change the icon as needed
-        backgroundColor:
-            Color.fromARGB(255, 138, 60, 55), // Change the color as needed
       ),
     );
   }

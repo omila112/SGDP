@@ -1,3 +1,4 @@
+import 'package:app/maps/map_page.dart';
 import 'package:app/pages/first_page.dart';
 import 'package:app/scanner/scannerapp.dart';
 
@@ -35,11 +36,12 @@ class MyApp extends StatelessWidget {
           //'/signin': (context) => Signin(),
           '/login': (context) => LoginPage(),
           '/menupage': (context) => const Menupage(),
-          '/home': (context) => const HomePage(),
+          '/home': (context) => const HomePagee(),
           '/ex': (context) => const page(), // Corrected route definition
           'ex1': (context) => const Spage(),
           'first_page': (context) => const FirstPage(),
           '/scannerapp': (context) => const App(),
+          '/map_page':(context) => const MapPage(),
           
         });
   }
