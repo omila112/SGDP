@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/main.dart';
 
-
 class Menupage extends StatefulWidget {
   const Menupage({Key? key}) : super(key: key);
 
@@ -43,21 +42,21 @@ class MenupageState extends State<Menupage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Icon(
-          Icons.menu,
-          color: Colors.grey[900],
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Scanner",
-              style: TextStyle(color: Colors.grey[900], fontSize: 30),
-            ),
-            SizedBox(
-              height: 1,
-            )
-          ],
+        automaticallyImplyLeading: false, // This line removes the back icon
+        title: Padding(
+          padding: EdgeInsets.only(left: 10.0), // Add left padding of 20 pixels
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "CosmoScan",
+                style: TextStyle(color: Colors.grey[900], fontSize: 25),
+              ),
+              SizedBox(
+                height: 1,
+              )
+            ],
+          ),
         ),
       ),
       body: Padding(
@@ -153,7 +152,6 @@ class MenupageState extends State<Menupage> {
               height: 40,
             ),
 
-            //popular food
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
@@ -177,7 +175,7 @@ class MenupageState extends State<Menupage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 70),
                             child: Text(
-                              "Prediction",
+                              "Skin Clinics",
                               style: GoogleFonts.dmSans(
                                   fontSize: 25,
                                   color: Colors.white,
@@ -203,13 +201,14 @@ class MenupageState extends State<Menupage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MyApp()),
-        ); 
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          );
         },
         child: Icon(Icons.add), // Change the icon as needed
-        backgroundColor: Color.fromARGB(255, 138, 60, 55), // Change the color as needed
+        backgroundColor:
+            Color.fromARGB(255, 138, 60, 55), // Change the color as needed
       ),
     );
   }
