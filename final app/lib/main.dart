@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           'ex1': (context) => const Spage(),
           'first_page': (context) => const FirstPage(),
           '/scannerapp': (context) => const App(),
-          '/main':(context) => const ChatApp(),
+          
         });
   }
 }
